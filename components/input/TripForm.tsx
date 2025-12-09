@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { TripType, TripFormInput } from "@/lib/types";
@@ -10,6 +10,7 @@ import { LocationInput } from "./LocationInput";
 import { DateRangePicker } from "./DateRangePicker";
 import { BudgetInput } from "./BudgetInput";
 import { PreferencesTextarea } from "./PreferencesTextarea";
+import { ProgressOverlay, triggerProgressComplete } from "@/components/ui/ProgressOverlay";
 
 interface FormErrors {
   location?: string;
@@ -21,6 +22,7 @@ export function TripForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
+  const shouldNavigateRef = useRef(false);
 
   // Form state
   const [location, setLocation] = useState("");
@@ -28,7 +30,8 @@ export function TripForm() {
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
   const [budget, setBudget] = useState("");
-  const [preferences, setPreferences] = useState("");
+  const [dos, setDos] = useState("");
+  const [donts, setDonts] = useState("");
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -59,13 +62,23 @@ export function TripForm() {
     setIsLoading(true);
 
     try {
+      // Combine dos and donts into preferences string
+      const preferenceParts: string[] = [];
+      if (dos.trim()) {
+        preferenceParts.push(`DO's: ${dos.trim()}`);
+      }
+      if (donts.trim()) {
+        preferenceParts.push(`DON'Ts: ${donts.trim()}`);
+      }
+      const combinedPreferences = preferenceParts.join("\n\n") || undefined;
+
       const formData: TripFormInput = {
         location: location.trim(),
         tripType,
         startDate: format(startDate!, "yyyy-MM-dd"),
         endDate: format(endDate!, "yyyy-MM-dd"),
         budget: parseInt(budget, 10),
-        preferences: preferences.trim() || undefined,
+        preferences: combinedPreferences,
       };
 
       const response = await fetch("/api/generate", {
@@ -80,6 +93,7 @@ export function TripForm() {
 
       if (!response.ok || !result.success) {
         setErrors({ location: result.error || "Something went wrong" });
+        setIsLoading(false);
         return;
       }
 
@@ -87,18 +101,30 @@ export function TripForm() {
       sessionStorage.setItem("tripPlan", JSON.stringify(result.plan));
       sessionStorage.setItem("tripFormInput", JSON.stringify(formData));
 
-      // Navigate to results page
-      router.push("/plan");
+      // Mark that we should navigate after progress completes
+      shouldNavigateRef.current = true;
+
+      // Trigger progress completion animation
+      triggerProgressComplete();
     } catch (error) {
       console.error("Form submission error:", error);
       setErrors({ location: "Connection error. Please try again." });
-    } finally {
       setIsLoading(false);
     }
   };
 
+  const handleProgressComplete = () => {
+    if (shouldNavigateRef.current) {
+      shouldNavigateRef.current = false;
+      setIsLoading(false);
+      router.push("/plan");
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <>
+      <ProgressOverlay isVisible={isLoading} onComplete={handleProgressComplete} />
+      <form onSubmit={handleSubmit} className="space-y-6">
       <LocationInput
         value={location}
         onChange={(val) => {
@@ -133,7 +159,12 @@ export function TripForm() {
         error={errors.budget}
       />
 
-      <PreferencesTextarea value={preferences} onChange={setPreferences} />
+      <PreferencesTextarea
+        dos={dos}
+        donts={donts}
+        onDosChange={setDos}
+        onDontsChange={setDonts}
+      />
 
       <button
         type="submit"
@@ -171,6 +202,7 @@ export function TripForm() {
           "Start Your Adventure"
         )}
       </button>
-    </form>
+      </form>
+    </>
   );
 }

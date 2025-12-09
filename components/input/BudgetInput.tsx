@@ -24,7 +24,7 @@ export function BudgetInput({
 
   // Format for display
   const displayValue = value
-    ? new Intl.NumberFormat("en-US").format(parseInt(value, 10) || 0)
+    ? new Intl.NumberFormat("en-GB").format(parseInt(value, 10) || 0)
     : "";
 
   return (
@@ -32,9 +32,15 @@ export function BudgetInput({
       <label htmlFor="budget" className="block text-sm font-medium text-ink-medium">
         Budget <span className="text-watercolor-coral">*</span>
       </label>
-      <div className="relative">
-        <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-          <span className="text-ink-medium font-medium">$</span>
+      <div
+        className={cn(
+          "flex items-center rounded-xl border bg-paper-white overflow-hidden",
+          "border-watercolor-coral/30 focus-within:border-watercolor-coral focus-within:ring-2 focus-within:ring-watercolor-coral/20",
+          error && "border-destructive focus-within:border-destructive focus-within:ring-destructive/20"
+        )}
+      >
+        <div className="flex items-center justify-center w-12 h-full border-r border-watercolor-coral/20">
+          <span className="text-watercolor-gold font-semibold text-lg">£</span>
         </div>
         <Input
           id="budget"
@@ -43,10 +49,7 @@ export function BudgetInput({
           placeholder="Enter budget in your local currency"
           value={displayValue}
           onChange={handleChange}
-          className={cn(
-            "pl-8 input-watercolor",
-            error && "border-destructive focus:border-destructive"
-          )}
+          className="flex-1 border-0 bg-transparent focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
         />
       </div>
       <p className="text-xs text-ink-light">

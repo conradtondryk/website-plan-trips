@@ -26,14 +26,13 @@ export function TripTypeSelector({
             type="button"
             onClick={() => onChange(option.value)}
             className={cn(
-              "trip-type-pill flex items-center gap-2",
+              "trip-type-pill",
               "focus:outline-none focus:ring-2 focus:ring-watercolor-coral/50",
               value === option.value && "text-white"
             )}
             data-selected={value === option.value}
           >
-            <span className="text-lg">{option.icon}</span>
-            <span>{option.label}</span>
+            {option.label}
           </button>
         ))}
       </div>

@@ -21,10 +21,16 @@ export function LocationInput({
       <label htmlFor="location" className="block text-sm font-medium text-ink-medium">
         Where are you going? <span className="text-watercolor-coral">*</span>
       </label>
-      <div className="relative">
-        <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+      <div
+        className={cn(
+          "flex items-center rounded-xl border bg-paper-white overflow-hidden",
+          "border-watercolor-coral/30 focus-within:border-watercolor-coral focus-within:ring-2 focus-within:ring-watercolor-coral/20",
+          error && "border-destructive focus-within:border-destructive focus-within:ring-destructive/20"
+        )}
+      >
+        <div className="flex items-center justify-center w-12 h-full border-r border-watercolor-coral/20">
           <svg
-            className="w-5 h-5 text-ink-light"
+            className="w-5 h-5 text-watercolor-coral"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -49,10 +55,7 @@ export function LocationInput({
           placeholder="Paris, Tokyo, New York..."
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={cn(
-            "pl-10 input-watercolor",
-            error && "border-destructive focus:border-destructive"
-          )}
+          className="flex-1 border-0 bg-transparent focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
         />
       </div>
       {error && (
