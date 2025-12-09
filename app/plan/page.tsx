@@ -55,27 +55,39 @@ export default function PlanPage() {
   };
 
   const handleShare = async () => {
-    if (!plan || !formInput) return;
+    if (!plan || !formInput) {
+      console.error("[Share] No plan or formInput available");
+      return;
+    }
 
     try {
+      console.log("[Share] Sending request...");
       const response = await fetch("/api/share", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ plan, formInput }),
       });
 
+      console.log("[Share] Response status:", response.status);
       const result = await response.json();
+      console.log("[Share] Response body:", result);
 
-      if (result.success) {
+      if (result.success && result.shareUrl) {
         // Copy to clipboard
-        await navigator.clipboard.writeText(result.shareUrl);
-        alert("Share link copied to clipboard!");
+        try {
+          await navigator.clipboard.writeText(result.shareUrl);
+          alert("Share link copied to clipboard!\n\n" + result.shareUrl);
+        } catch (clipboardError) {
+          // Fallback - show URL in alert
+          alert("Share link created!\n\n" + result.shareUrl + "\n\n(Copy manually - clipboard access denied)");
+        }
       } else {
-        alert(result.error || "Failed to create share link");
+        console.error("[Share] API error:", result);
+        alert(result.error || "Failed to create share link. Check console for details.");
       }
     } catch (error) {
-      console.error("Share error:", error);
-      alert("Failed to create share link");
+      console.error("[Share] Fetch error:", error);
+      alert("Failed to create share link. Check console for details.");
     }
   };
 
