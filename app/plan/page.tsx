@@ -9,6 +9,7 @@ import { WatercolorBackground } from "@/components/layout/WatercolorBackground";
 import { Header } from "@/components/layout/Header";
 import { DayTabs } from "@/components/plan/DayTabs";
 import { PlanTimeline } from "@/components/plan/PlanTimeline";
+import { ShareButton } from "@/components/plan/ShareButton";
 
 // Dynamic import for map to avoid SSR issues
 const TripMap = dynamic(
@@ -29,7 +30,6 @@ export default function PlanPage() {
   const [formInput, setFormInput] = useState<TripFormInput | null>(null);
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
-  const [showShareModal, setShowShareModal] = useState(false);
 
   useEffect(() => {
     // Load plan from sessionStorage
@@ -54,43 +54,6 @@ export default function PlanPage() {
     setSelectedActivityId(activityId === selectedActivityId ? null : activityId);
   };
 
-  const handleShare = async () => {
-    if (!plan || !formInput) {
-      console.error("[Share] No plan or formInput available");
-      return;
-    }
-
-    try {
-      console.log("[Share] Sending request...");
-      const response = await fetch("/api/share", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan, formInput }),
-      });
-
-      console.log("[Share] Response status:", response.status);
-      const result = await response.json();
-      console.log("[Share] Response body:", result);
-
-      if (result.success && result.shareUrl) {
-        // Copy to clipboard
-        try {
-          await navigator.clipboard.writeText(result.shareUrl);
-          alert("Share link copied to clipboard!\n\n" + result.shareUrl);
-        } catch (clipboardError) {
-          // Fallback - show URL in alert
-          alert("Share link created!\n\n" + result.shareUrl + "\n\n(Copy manually - clipboard access denied)");
-        }
-      } else {
-        console.error("[Share] API error:", result);
-        alert(result.error || "Failed to create share link. Check console for details.");
-      }
-    } catch (error) {
-      console.error("[Share] Fetch error:", error);
-      alert("Failed to create share link. Check console for details.");
-    }
-  };
-
   if (!plan || !formInput) {
     return (
       <WatercolorBackground>
@@ -110,7 +73,9 @@ export default function PlanPage() {
 
   return (
     <WatercolorBackground>
-      <Header showShareButton onShareClick={handleShare} />
+      <Header>
+        <ShareButton plan={plan} formInput={formInput} />
+      </Header>
 
       <main className="container mx-auto px-4 py-6">
         {/* Map Section */}
