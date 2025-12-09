@@ -1,0 +1,283 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Watercolor palette */
+    --watercolor-coral: 0 100% 71%;
+    --watercolor-peach: 17 100% 74%;
+    --watercolor-gold: 48 100% 62%;
+    --watercolor-mint: 135 52% 61%;
+    --watercolor-sky: 215 100% 65%;
+    --watercolor-lavender: 282 44% 53%;
+    --watercolor-pink: 330 100% 71%;
+
+    /* Paper backgrounds */
+    --paper-cream: 45 67% 94%;
+    --paper-white: 50 100% 99%;
+
+    /* Ink colors */
+    --ink-dark: 207 35% 24%;
+    --ink-medium: 210 14% 42%;
+    --ink-light: 184 9% 62%;
+
+    /* shadcn/ui variables - customized for watercolor theme */
+    --background: 50 100% 99%;
+    --foreground: 207 35% 24%;
+    --card: 45 67% 94%;
+    --card-foreground: 207 35% 24%;
+    --popover: 50 100% 99%;
+    --popover-foreground: 207 35% 24%;
+    --primary: 0 100% 71%;
+    --primary-foreground: 50 100% 99%;
+    --secondary: 45 67% 94%;
+    --secondary-foreground: 207 35% 24%;
+    --muted: 45 30% 90%;
+    --muted-foreground: 210 14% 42%;
+    --accent: 17 100% 74%;
+    --accent-foreground: 207 35% 24%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 45 30% 85%;
+    --input: 45 30% 85%;
+    --ring: 0 100% 71%;
+    --chart-1: 0 100% 71%;
+    --chart-2: 135 52% 61%;
+    --chart-3: 215 100% 65%;
+    --chart-4: 48 100% 62%;
+    --chart-5: 330 100% 71%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper-white text-ink-dark font-body antialiased;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-blend-mode: overlay;
+  }
+}
+
+/* Watercolor-specific utilities */
+@layer utilities {
+  .font-display {
+    font-family: var(--font-caveat), cursive;
+  }
+
+  .font-body {
+    font-family: var(--font-nunito), sans-serif;
+  }
+
+  /* Paper texture overlay */
+  .paper-texture {
+    position: relative;
+  }
+
+  .paper-texture::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.08;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  /* Watercolor button gradient */
+  .watercolor-gradient {
+    background: linear-gradient(135deg, #FF6B6B, #FFA07A);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .watercolor-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='wc'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='2'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23wc)'/%3E%3C/svg%3E");
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  .watercolor-gradient-cool {
+    background: linear-gradient(135deg, #4D96FF, #9B59B6);
+  }
+
+  .watercolor-gradient-warm {
+    background: linear-gradient(135deg, #FFD93D, #FF6B6B);
+  }
+
+  .watercolor-gradient-mint {
+    background: linear-gradient(135deg, #6BCB77, #4D96FF);
+  }
+
+  /* Watercolor card styling */
+  .watercolor-card {
+    @apply relative bg-paper-cream rounded-2xl;
+    box-shadow:
+      0 4px 15px -3px rgba(255, 107, 107, 0.15),
+      0 2px 6px -2px rgba(255, 167, 122, 0.1);
+  }
+
+  .watercolor-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  /* Watercolor border effect */
+  .watercolor-border {
+    position: relative;
+    border: 2px solid transparent;
+    background:
+      linear-gradient(var(--paper-cream-color, #FDF6E3), var(--paper-cream-color, #FDF6E3)) padding-box,
+      linear-gradient(135deg, #FF6B6B, #FFA07A, #FFD93D) border-box;
+  }
+
+  /* Soft watercolor shadows */
+  .shadow-watercolor {
+    box-shadow:
+      0 4px 15px -3px rgba(255, 107, 107, 0.2),
+      0 2px 6px -2px rgba(255, 167, 122, 0.15);
+  }
+
+  .shadow-watercolor-lg {
+    box-shadow:
+      0 10px 25px -5px rgba(255, 107, 107, 0.25),
+      0 4px 10px -3px rgba(255, 167, 122, 0.2);
+  }
+
+  /* Ink text variations */
+  .text-ink {
+    @apply text-ink-dark;
+  }
+
+  .text-ink-secondary {
+    @apply text-ink-medium;
+  }
+
+  .text-ink-muted {
+    @apply text-ink-light;
+  }
+
+  /* Animation for watercolor effect */
+  @keyframes watercolor-flow {
+    0%, 100% {
+      filter: blur(0px) saturate(1);
+    }
+    50% {
+      filter: blur(0.5px) saturate(1.1);
+    }
+  }
+
+  .animate-watercolor {
+    animation: watercolor-flow 3s ease-in-out infinite;
+  }
+
+  /* Smooth card appearance */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out forwards;
+  }
+}
+
+/* SVG Filter for watercolor edges - include in HTML */
+.watercolor-filter-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Scrollbar utilities */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar styling */
+.scrollbar-watercolor::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-watercolor::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-watercolor::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 107, 0.3);
+  border-radius: 3px;
+}
+
+.scrollbar-watercolor::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 107, 0.5);
+}
+
+/* Leaflet popup customization */
+.leaflet-popup-content-wrapper {
+  background: #FDF6E3;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px -5px rgba(255, 107, 107, 0.2);
+  border: 1px solid rgba(255, 107, 107, 0.1);
+}
+
+.leaflet-popup-tip {
+  background: #FDF6E3;
+}
+
+.leaflet-popup-close-button {
+  color: #5D6D7E !important;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Focus visible styles for accessibility */
+:focus-visible {
+  outline: 2px solid #FF6B6B;
+  outline-offset: 2px;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,276 @@
+/* Watercolor-specific styling components */
+
+/* Watercolor Button Styles */
+.btn-watercolor {
+  @apply relative px-8 py-3 rounded-full font-body font-semibold text-white;
+  background: linear-gradient(135deg, #FF6B6B 0%, #FFA07A 50%, #FFD93D 100%);
+  background-size: 200% 200%;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 4px 15px -3px rgba(255, 107, 107, 0.4),
+    0 2px 6px -2px rgba(255, 167, 122, 0.3);
+}
+
+.btn-watercolor:hover {
+  background-position: 100% 100%;
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 25px -5px rgba(255, 107, 107, 0.5),
+    0 4px 10px -3px rgba(255, 167, 122, 0.4);
+}
+
+.btn-watercolor:active {
+  transform: translateY(0);
+}
+
+.btn-watercolor::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='wc'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.03' numOctaves='3'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23wc)'/%3E%3C/svg%3E");
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* Watercolor Input Styles */
+.input-watercolor {
+  @apply w-full px-4 py-3 rounded-xl bg-paper-cream border-2 border-transparent;
+  @apply text-ink-dark placeholder:text-ink-light;
+  @apply transition-all duration-200;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.input-watercolor:focus {
+  @apply outline-none ring-0;
+  border-image: linear-gradient(135deg, #FF6B6B, #FFA07A) 1;
+  border-radius: 0.75rem;
+  border: 2px solid;
+  border-color: transparent;
+  background:
+    linear-gradient(#FDF6E3, #FDF6E3) padding-box,
+    linear-gradient(135deg, #FF6B6B, #FFA07A) border-box;
+}
+
+.input-watercolor:hover:not(:focus) {
+  @apply border-watercolor-peach/30;
+}
+
+/* Watercolor Card Variations */
+.card-watercolor {
+  @apply relative overflow-hidden rounded-2xl p-6;
+  background: linear-gradient(145deg, #FDF6E3 0%, #FFFEF9 100%);
+  box-shadow:
+    0 4px 20px -5px rgba(255, 107, 107, 0.15),
+    0 2px 8px -2px rgba(255, 167, 122, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.card-watercolor::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+.card-watercolor-highlight {
+  @apply card-watercolor;
+  box-shadow:
+    0 4px 20px -5px rgba(255, 107, 107, 0.25),
+    0 2px 8px -2px rgba(255, 167, 122, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 0 0 1px rgba(255, 107, 107, 0.1);
+}
+
+/* Activity Type Badges */
+.badge-watercolor {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 167, 122, 0.1));
+  color: #2C3E50;
+}
+
+.badge-restaurant {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 167, 122, 0.1));
+}
+
+.badge-museum {
+  background: linear-gradient(135deg, rgba(155, 89, 182, 0.15), rgba(77, 150, 255, 0.1));
+}
+
+.badge-activity {
+  background: linear-gradient(135deg, rgba(107, 203, 119, 0.15), rgba(77, 150, 255, 0.1));
+}
+
+.badge-attraction {
+  background: linear-gradient(135deg, rgba(255, 217, 61, 0.15), rgba(255, 167, 122, 0.1));
+}
+
+.badge-nightlife {
+  background: linear-gradient(135deg, rgba(155, 89, 182, 0.15), rgba(255, 105, 180, 0.1));
+}
+
+.badge-scenic {
+  background: linear-gradient(135deg, rgba(77, 150, 255, 0.15), rgba(107, 203, 119, 0.1));
+}
+
+/* Hidden Gem Star */
+.hidden-gem-star {
+  @apply relative inline-flex items-center justify-center;
+  color: #FFD93D;
+  filter: drop-shadow(0 1px 2px rgba(255, 217, 61, 0.4));
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Tooltip for Hidden Gem */
+.tooltip-watercolor {
+  @apply absolute z-50 px-4 py-3 rounded-xl text-sm max-w-xs;
+  background: linear-gradient(145deg, #FFFEF9, #FDF6E3);
+  box-shadow:
+    0 10px 30px -10px rgba(255, 107, 107, 0.3),
+    0 4px 10px -3px rgba(255, 167, 122, 0.2);
+  border: 1px solid rgba(255, 107, 107, 0.1);
+}
+
+.tooltip-watercolor::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #FDF6E3;
+}
+
+/* Trip Type Selector Pills */
+.trip-type-pill {
+  @apply relative px-6 py-3 rounded-full font-medium transition-all duration-200;
+  @apply text-ink-medium bg-paper-cream;
+}
+
+.trip-type-pill:hover {
+  @apply bg-paper-white;
+  box-shadow: 0 2px 8px -2px rgba(255, 107, 107, 0.2);
+}
+
+.trip-type-pill[data-selected="true"] {
+  @apply text-white;
+  background: linear-gradient(135deg, #FF6B6B, #FFA07A);
+  box-shadow: 0 4px 15px -3px rgba(255, 107, 107, 0.4);
+}
+
+/* Day Tab Navigation */
+.day-tab {
+  @apply relative px-4 py-2 rounded-lg font-medium transition-all duration-200;
+  @apply text-ink-medium;
+}
+
+.day-tab:hover {
+  @apply text-ink-dark bg-paper-cream;
+}
+
+.day-tab[data-selected="true"] {
+  @apply text-watercolor-coral bg-paper-cream;
+}
+
+.day-tab[data-selected="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, #FF6B6B, #FFA07A);
+  border-radius: 2px;
+}
+
+/* Price Range Indicator */
+.price-indicator {
+  @apply inline-flex gap-0.5 text-ink-light;
+}
+
+.price-indicator span.active {
+  @apply text-watercolor-gold;
+}
+
+/* Map Route Line Style */
+.map-route {
+  stroke: url(#watercolor-route-gradient);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 8, 4;
+  fill: none;
+  filter: drop-shadow(0 2px 4px rgba(255, 107, 107, 0.3));
+}
+
+/* Loading Skeleton with watercolor effect */
+.skeleton-watercolor {
+  @apply relative overflow-hidden rounded-lg bg-paper-cream;
+}
+
+.skeleton-watercolor::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 107, 107, 0.1) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.5s infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Watercolor splash decoration */
+.watercolor-splash {
+  @apply absolute pointer-events-none opacity-20;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 107, 107, 0.4) 0%,
+    rgba(255, 167, 122, 0.2) 40%,
+    transparent 70%
+  );
+  filter: blur(20px);
+}
+
+.watercolor-splash-mint {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(107, 203, 119, 0.4) 0%,
+    rgba(77, 150, 255, 0.2) 40%,
+    transparent 70%
+  );
+}
+
+.watercolor-splash-sky {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(77, 150, 255, 0.4) 0%,
+    rgba(155, 89, 182, 0.2) 40%,
+    transparent 70%
+  );
+}
